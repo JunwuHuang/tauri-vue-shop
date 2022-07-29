@@ -2,10 +2,16 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
+
+extern crate dotenv;
+
 mod todo;
 use todo::{Todo, TodoApp};
+use dotenv::dotenv;
 
 fn main() {
+    dotenv().ok();
+
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![get_todos, new_todo])
         .run(tauri::generate_context!())

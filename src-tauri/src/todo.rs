@@ -1,5 +1,6 @@
 use rusqlite::{Connection, Result};
 use serde::{Deserialize, Serialize};
+use std::env;
 
 #[derive(Serialize, Deserialize)]
 pub struct Todo {
@@ -15,7 +16,7 @@ pub struct TodoApp {
 
 impl TodoApp {
     pub fn new() -> Result<TodoApp> {
-        let db_path = "../db/db.sqlite";
+        let db_path = env::var("DB_PATH").unwrap();
         let conn = Connection::open(db_path)?;
 
         conn.execute(
